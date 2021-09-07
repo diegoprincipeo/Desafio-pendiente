@@ -18,10 +18,13 @@ section{
 article{
   border: 1pt solid black;
   padding: 0.5rem;
+  margin: 0.5rem;
+  max-width: 20vw;
 }
 form {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   width: 25vw;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }

@@ -37,14 +37,44 @@ const agregarComentario = (Usuario, Post) => {
     .finally(() => obtenerComentarios());
 };
 
+const sumarLike = async(id) => {
+    let comentariosRemotos = database.collection("Post");
+    
+    let comentarioLikeado = comentariosRemotos.doc(id);
+
+    let likesAnteriores = await comentarioLikeado
+    .get()
+    .then((res) => res.data().Like);
+
+    comentarioLikeado.update({
+        Like: likesAnteriores + 1
+    })
+    .then(() => obtenerComentarios())
+    .catch((err) => alert("Error: ",err));
+};
+
+const borrarTodos = async() => {
+
+    let comentariosRemotos = database.collection("Post");
+
+    const query = await comentariosRemotos.get();
+    const batch = database.batch();
+    query.docs.forEach((Comentario) => batch.delete(Comentario.ref));
+    batch.commit();
+
+    alert("Post eliminado")
+    obtenerComentarios();
+};
+
     return (
         <div>
             <Agregar agregarComentario={agregarComentario} />
             <section>
                 {comentarios.map((item) => (
-                    <Comentario data= {item} key={item.id} />
+                    <Comentario data= {item} key={item.id} sumarLike={sumarLike} />
                 ))}
             </section>
+            <button onClick={borrarTodos}>Borrar Todos</button>
         </div>
     );
 };

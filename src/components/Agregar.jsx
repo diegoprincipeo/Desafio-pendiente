@@ -8,8 +8,11 @@ const Agregar = ({ agregarComentario }) => {
         let Post = ev.target.Post.value;
 
         agregarComentario(Usuario, Post);
+        
+        ev.target.reset();
 
     };
+
     return(
         <form>
             <label>Usuario:</label>
